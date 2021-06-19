@@ -2,8 +2,7 @@
 #include"kernel/stat.h"
 #include"user/user.h"
 #define SIZE 5
-int 
-main(int argc,char **argv){
+int  main(int argc,char **argv){
     int parent_fd[2],child_fd[2];
     char receive[SIZE];int pid;
     pipe(parent_fd);
@@ -15,19 +14,19 @@ main(int argc,char **argv){
         close(child_fd[1]);
         close(parent_fd[1]);
         read(parent_fd[0],receive,SIZE);
-        fprintf(1,"%d:receive from parent %s\n",pid,receive);
+        fprintf(1,"%d: received ping\n",pid);
         close(parent_fd[0]);
 
     }else{
         pid=getpid();
         close(child_fd[1]);
         read(child_fd[0],receive,SIZE);
-        fprintf(1,"%d:receive from child %s\n",pid,receive);
+        fprintf(1,"%d: received pong\n",pid);
         close(child_fd[0]);
         close(parent_fd[0]);
         write(parent_fd[1],"ping",SIZE);
         close(parent_fd[1]);
         
     }
-    exit(1);
+    exit();
 }
